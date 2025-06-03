@@ -38,11 +38,7 @@ public class AuthController {
     @PostMapping("/verify-2fa")
     public ResponseEntity<AuthResponse> verifyTwoFactorCode(@RequestBody TwoFactorRequest request) {
         User user = authService.getUserByEmail(request.getEmail());
-
-        if (!twoFactorService.verifyCode(user, request.getCode())) {
-            return ResponseEntity.status(403).build();
-        }
-
+        twoFactorService.verifyOrThrow(user, request.getCode());
         twoFactorService.clearCode(user);
         AuthResponse tokens = authService.generateTokens(user);
         return ResponseEntity.ok(tokens);

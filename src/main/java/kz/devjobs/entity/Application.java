@@ -1,9 +1,11 @@
 package kz.devjobs.entity;
 
 import jakarta.persistence.*;
+import kz.devjobs.enums.ApplicationStatus;
 import lombok.*;
 
 @Entity
+@Table(name = "application")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +13,7 @@ import lombok.*;
 public class Application {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
@@ -23,9 +25,5 @@ public class Application {
     private JobVacancy vacancy;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
-
-    public enum Status {
-        NEW, REVIEWED, ACCEPTED, REJECTED
-    }
+    private ApplicationStatus status;
 }

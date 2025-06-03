@@ -14,7 +14,7 @@ import lombok.*;
 public class JobVacancy {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String position;
@@ -23,7 +23,6 @@ public class JobVacancy {
     private String location;
     private Integer salary;
     private String stack;
-
 
     @ManyToOne
     @JoinColumn(name = "employer_id")

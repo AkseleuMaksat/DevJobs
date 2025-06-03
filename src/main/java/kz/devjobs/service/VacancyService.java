@@ -7,7 +7,6 @@ import kz.devjobs.entity.JobVacancy;
 import kz.devjobs.entity.User;
 import kz.devjobs.repository.JobVacancyRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,10 +45,12 @@ public class VacancyService {
                         .build())
                 .collect(toList());
     }
+
     public JobVacancy getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vacancy not found"));
     }
+
     public JobVacancy updateById(JobVacancyRequest request, Long id, User employer) {
         JobVacancy vacancy = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vacancy not found"));
@@ -63,10 +64,12 @@ public class VacancyService {
 
         return repository.save(vacancy);
     }
+
     public JobVacancy deleteById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vacancy not found"));
     }
+
     public List<JobVacancyResponse> search(String location, Integer salary, String stack) {
         List<JobVacancy> result = repository
                 .findByLocationContainingIgnoreCaseAndSalaryGreaterThanEqualAndStackContainingIgnoreCase(

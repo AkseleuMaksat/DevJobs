@@ -1,6 +1,7 @@
 package kz.devjobs.entity;
 
 import jakarta.persistence.*;
+import kz.devjobs.enums.Role;
 import lombok.*;
 
 @Entity
@@ -13,7 +14,7 @@ import lombok.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -24,9 +25,4 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public enum Role {
-        CANDIDATE,
-        EMPLOYER
-    }
 }

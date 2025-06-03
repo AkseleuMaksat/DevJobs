@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
+@Table(name = "refresh_token")
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import java.time.Instant;
 public class RefreshToken {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @OneToOne

@@ -7,6 +7,7 @@ import kz.devjobs.entity.User;
 import kz.devjobs.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,10 @@ public class ResumeController {
 
     private final ResumeService resumeService;
 
+    @PreAuthorize("hasRole('CANDIDATE')")
     @PostMapping
     public ResponseEntity<Void> createResume(@RequestBody ResumeRequest request,
                                              @AuthenticationPrincipal User user) {
-        if (!user.getRole().name().equals("CANDIDATE")) {
-            return ResponseEntity.status(403).build();
-        }
         resumeService.create(request, user);
         return ResponseEntity.ok().build();
     }
@@ -39,22 +38,18 @@ public class ResumeController {
         return ResponseEntity.ok(resumeService.getById(id));
     }
 
+    @PreAuthorize("hasRole('CANDIDATE')")
     @PutMapping("/{id}")
     public ResponseEntity<Resume> updateResume(@PathVariable Long id,
                                                @RequestBody ResumeRequest request,
                                                @AuthenticationPrincipal User user) {
-        if (!user.getRole().name().equals("CANDIDATE")) {
-            return ResponseEntity.status(403).build();
-        }
         return ResponseEntity.ok(resumeService.updateById(request, id, user));
     }
 
+    @PreAuthorize("hasRole('CANDIDATE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Resume> deleteResume(@PathVariable Long id,
                                                @AuthenticationPrincipal User user) {
-        if (!user.getRole().name().equals("CANDIDATE")) {
-            return ResponseEntity.status(403).build();
-        }
         return ResponseEntity.ok(resumeService.deleteById(id, user));
     }
 }

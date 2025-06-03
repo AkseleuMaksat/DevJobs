@@ -7,6 +7,7 @@ import kz.devjobs.entity.User;
 import kz.devjobs.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +20,10 @@ public class VacancyController {
 
     private final VacancyService vacancyService;
 
+    @PreAuthorize("hasRole('EMPLOYER')")
     @PostMapping
     public ResponseEntity<Void> createVacancy(@RequestBody JobVacancyRequest request,
                                               @AuthenticationPrincipal User user) {
-        if (!user.getRole().name().equals("EMPLOYER")) {
-            return ResponseEntity.status(403).build();
-        }
-
         vacancyService.create(request, user);
         return ResponseEntity.ok().build();
     }
@@ -34,29 +32,25 @@ public class VacancyController {
     public ResponseEntity<List<JobVacancyResponse>> getAll() {
         return ResponseEntity.ok(vacancyService.getAll());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<JobVacancy> getById(@PathVariable Long id) {
         return ResponseEntity.ok(vacancyService.getById(id));
     }
 
+    @PreAuthorize("hasRole('EMPLOYER')")
     @PutMapping("/{id}")
     public ResponseEntity<JobVacancy> updateVacancy(@PathVariable Long id,
                                                     @RequestBody JobVacancyRequest request,
                                                     @AuthenticationPrincipal User user) {
-        if (!user.getRole().name().equals("EMPLOYER")) {
-            return ResponseEntity.status(403).build();
-        }
-
         JobVacancy updated = vacancyService.updateById(request, id, user);
         return ResponseEntity.ok(updated);
     }
+
+    @PreAuthorize("hasRole('EMPLOYER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<JobVacancy> deleteVacancy(@PathVariable Long id,
                                                     @AuthenticationPrincipal User user) {
-        if (!user.getRole().name().equals("EMPLOYER")) {
-            return ResponseEntity.status(403).build();
-        }
-
         JobVacancy deleted = vacancyService.deleteById(id);
         return ResponseEntity.ok(deleted);
     }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import kz.devjobs.entity.User;
+import kz.devjobs.enums.Role;
 import lombok.Data;
 
 @Data
@@ -19,5 +19,5 @@ public class RegisterRequest {
     private String password;
 
     @NotNull
-    private User.Role role;
+    private Role role;
 }

@@ -7,6 +7,7 @@ import kz.devjobs.entity.Application;
 import kz.devjobs.entity.JobVacancy;
 import kz.devjobs.entity.Resume;
 import kz.devjobs.entity.User;
+import kz.devjobs.enums.ApplicationStatus;
 import kz.devjobs.repository.ApplicationRepository;
 import kz.devjobs.repository.JobVacancyRepository;
 import kz.devjobs.repository.ResumeRepository;
@@ -34,7 +35,7 @@ public class ApplicationService {
         Application application = Application.builder()
                 .resume(resume)
                 .vacancy(vacancy)
-                .status(Application.Status.NEW)
+                .status(ApplicationStatus.NEW)
                 .build();
 
         applicationRepository.save(application);
@@ -58,7 +59,7 @@ public class ApplicationService {
                 .collect(Collectors.toList());
     }
 
-    public void changeStatus(Long applicationId, Application.Status status) {
+    public void changeStatus(Long applicationId, ApplicationStatus status) {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new EntityNotFoundException("Application not found"));
         application.setStatus(status);

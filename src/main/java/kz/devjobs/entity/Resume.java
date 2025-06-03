@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "resume")
 @Data
 @Builder
 @NoArgsConstructor
@@ -11,7 +12,7 @@ import lombok.*;
 public class Resume {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String fullName;

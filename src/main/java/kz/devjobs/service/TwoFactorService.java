@@ -29,16 +29,18 @@ public class TwoFactorService {
                         .user(user)
                         .build()
         );
-
-        // Email отправка — ты можешь использовать emailService
         return code;
     }
 
-    public boolean verifyCode(User user, String code) {
-        Optional<TwoFactorCode> tf = codeRepository.findByUserAndCode(user, code);
+    public void verifyOrThrow(User user, String code) {
+        TwoFactorCode tf = codeRepository.findByUserAndCode(user, code)
+                .orElseThrow(() -> new SecurityException("Invalid 2FA code"));
 
-        return tf.isPresent() && tf.get().getExpiry().isAfter(Instant.now());
+        if (tf.getExpiry().isBefore(Instant.now())) {
+            throw new SecurityException("2FA code expired");
+        }
     }
+
 
     public void clearCode(User user) {
         codeRepository.findByUser(user).ifPresent(codeRepository::delete);

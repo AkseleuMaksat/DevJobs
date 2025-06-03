@@ -12,7 +12,7 @@ import java.time.Instant;
 @Builder
 public class TwoFactorCode {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String code;
