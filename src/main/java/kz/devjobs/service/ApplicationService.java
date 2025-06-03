@@ -39,8 +39,6 @@ public class ApplicationService {
                 .build();
 
         applicationRepository.save(application);
-
-        // ✅ Email уведомление работодателю
         emailService.send(
                 vacancy.getEmployer().getEmail(),
                 "Новый отклик на вакансию",
